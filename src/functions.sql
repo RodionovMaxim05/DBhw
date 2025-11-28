@@ -41,6 +41,8 @@ END;
 
 $$;
 
+-- CALL update_employee_stat(1);
+--
 -- ===================================
 -- 2) Car warehouse valuation in JSON format
 -- ===================================

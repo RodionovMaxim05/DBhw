@@ -190,7 +190,7 @@ VALUES (
                 AND model_name = 'M4'
             LIMIT 1
         ), 'WBA8E1C50GK000003', 2021, 'Blue', 9000000, 1
-    ),(
+    ), (
         (
             SELECT model_id
             FROM model
@@ -198,7 +198,7 @@ VALUES (
                 AND model_name = 'RS6'
             LIMIT 1
         ), '1HGBH41JXMN109186', 2023, 'Gray', 12000000, 2
-    ),(
+    ), (
         (
             SELECT model_id
             FROM model
@@ -206,6 +206,14 @@ VALUES (
                 AND model_name = 'Rapid'
             LIMIT 1
         ), 'TRGLH34JZMU164106', 2017, 'White', 1050000, 4
+    ), (
+        (
+            SELECT model_id
+            FROM model
+            WHERE brand = 'Tesla'
+                AND model_name = 'Model 3'
+            LIMIT 1
+        ), 'TURBH31DSGN103158', 2023, 'White', 6000000, 1
     ), (
         (
             SELECT model_id
@@ -307,6 +315,19 @@ VALUES (
         'Good',
         'Need detailing',
         '2025-10-23',
+        NULL
+    ),
+    (
+        (
+            SELECT car_id
+            FROM car
+            WHERE vin = 'TURBH31DSGN103158'
+        ),
+        27000,
+        'Strange sounds',
+        'Replaced bumper',
+        'Good',
+        '2025-05-25',
         NULL
     ),
     (

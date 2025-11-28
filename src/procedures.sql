@@ -36,10 +36,10 @@ $$;
 -- CALL ReserveCar(3, 1, 1);
 -- 
 -- ===================================
--- 2) Return/cancellation of sale
+-- 2) Return/cancellation of the most recent sale for a car
 -- ===================================
 CREATE OR REPLACE PROCEDURE RefundSale(
-        IN p_sale_id INT,
+        IN p_car_id INT,
         OUT refunded_sale_id INT,
         OUT refunded_amount INT,
         OUT refunded_car_id INT
@@ -49,10 +49,13 @@ DECLARE v_sale RECORD;
 BEGIN
 SELECT * INTO v_sale
 FROM Sale
-WHERE sale_id = p_sale_id;
+WHERE car_id = p_car_id
+ORDER BY sale_date DESC,
+    sale_id DESC
+LIMIT 1;
 
-IF NOT FOUND THEN RAISE EXCEPTION 'Sale % does not exist',
-p_sale_id;
+IF NOT FOUND THEN RAISE EXCEPTION 'No sale found for car %',
+p_car_id;
 
 END IF;
 
@@ -63,27 +66,21 @@ refunded_amount := v_sale.sale_price;
 refunded_car_id := v_sale.car_id;
 
 DELETE FROM Sale
-WHERE sale_id = p_sale_id;
+WHERE sale_id = v_sale.sale_id;
 
 PERFORM update_employee_stat(v_sale.employee_id);
 
-IF NOT EXISTS (
-    SELECT 1
-    FROM Sale
-    WHERE car_id = v_sale.car_id
-) THEN
 UPDATE Car
 SET status_id = (
         SELECT status_id
         FROM StatusType
         WHERE name = 'Available'
+        LIMIT 1
     )
-WHERE Car.car_id = v_sale.car_id;
-
-END IF;
+WHERE car_id = p_car_id;
 
 END;
 
 $$;
 
--- CALL RefundSale(2, NULL, NULL, NULL);
+-- CALL RefundSale(1, NULL, NULL, NULL);

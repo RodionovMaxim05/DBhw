@@ -16,7 +16,7 @@ FROM Car
     JOIN BodyType ON Model.body_type_id = BodyType.body_type_id
     JOIN EngineType ON Model.engine_type_id = EngineType.engine_type_id
     JOIN StatusType ON Car.status_id = StatusType.status_id
-    LEFT JOIN CarCondition ON CarCondition.car_id = Car.car_id
+    JOIN CarCondition ON CarCondition.car_id = Car.car_id
 WHERE StatusType.name = 'Available';
 
 SELECT *
