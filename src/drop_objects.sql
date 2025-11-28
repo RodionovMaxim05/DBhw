@@ -6,20 +6,28 @@ DROP PROCEDURE IF EXISTS ReserveCar(INT, INT, INT);
 DROP PROCEDURE IF EXISTS RefundSale(INT, OUT INT, OUT INT, OUT INT);
 
 -- ===================================
--- Delete Functions
--- ===================================
-DROP FUNCTION IF EXISTS update_employee_stat(INT);
-
-DROP FUNCTION IF EXISTS set_car_sold();
-
-DROP FUNCTION IF EXISTS get_inventory_json();
-
--- ===================================
 -- Delete Triggers
 -- ===================================
 DROP TRIGGER IF EXISTS trg_update_stat_after_sale ON Sale;
 
 DROP TRIGGER IF EXISTS trg_set_car_sold_after_sale ON Sale;
+
+DROP TRIGGER IF EXISTS trg_maintain_car_condition ON Car;
+
+DROP TRIGGER IF EXISTS trg_prevent_sale_of_sold_car ON Sale;
+
+-- ===================================
+-- Delete Functions
+-- ===================================
+DROP FUNCTION IF EXISTS update_employee_stat(INT);
+
+DROP FUNCTION IF EXISTS get_inventory_json();
+
+DROP FUNCTION IF EXISTS set_car_sold();
+
+DROP FUNCTION IF EXISTS maintain_car_condition();
+
+DROP FUNCTION IF EXISTS prevent_sale_of_sold_car();
 
 -- ===================================
 -- Delete Views

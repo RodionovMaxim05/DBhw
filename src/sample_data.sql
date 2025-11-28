@@ -233,7 +233,7 @@ VALUES (
     ) ON CONFLICT DO NOTHING;
 
 -- ===================================
--- Car conditions (for used cars)
+-- Car conditions
 -- ===================================
 INSERT INTO CarCondition (
         car_id,
@@ -347,7 +347,14 @@ VALUES (
         'Not ideal',
         '2025-07-12',
         NULL
-    ) ON CONFLICT DO NOTHING;
+    ) ON CONFLICT (car_id) DO
+UPDATE
+SET mileage = EXCLUDED.mileage,
+    mechanical_condition = EXCLUDED.mechanical_condition,
+    body_condition = EXCLUDED.body_condition,
+    interior_condition = EXCLUDED.interior_condition,
+    inspection_date = EXCLUDED.inspection_date,
+    notes = EXCLUDED.notes;
 
 -- ===================================
 -- Sales
@@ -394,23 +401,6 @@ VALUES (
             WHERE last_name = 'Sidorova'
             LIMIT 1
         ), 9005000
-    ), (
-        '2025-03-15',(
-            SELECT car_id
-            FROM Car
-            WHERE vin = 'JTNBB46KX20000001'
-        ),
-        (
-            SELECT client_id
-            FROM Client
-            WHERE last_name = 'Orlov'
-            LIMIT 1
-        ),(
-            SELECT employee_id
-            FROM Employee
-            WHERE last_name = 'Kovalev'
-            LIMIT 1
-        ), 2700000
     ), (
         '2025-10-25',(
             SELECT car_id
