@@ -142,7 +142,10 @@ VALUES ('Toyota', 'Camry', 1, 1, 2),
     ('Porsche', '911', 5, 1, 1),
     ('BMW', 'M4', 1, 1, 2),
     ('Tesla', 'Model 3', 4, 4, 2),
-    ('Audi', 'RS6', 6, 1, 2) ON CONFLICT DO NOTHING;
+    ('Audi', 'RS6', 6, 1, 2),
+    ('Skoda', 'Rapid', 1, 1, 1),
+    ('Volkswagen', 'Golf', 2, 1, 2),
+    ('Volkswagen', 'Touareg', 3, 1, 2) ON CONFLICT DO NOTHING;
 
 -- ===================================
 -- Cars
@@ -175,6 +178,14 @@ VALUES (
         (
             SELECT model_id
             FROM model
+            WHERE brand = 'Porsche'
+                AND model_name = '911'
+            LIMIT 1
+        ), 'HP3RFRGEV0W004022', 2022, 'Silver', 25900000, 1
+    ), (
+        (
+            SELECT model_id
+            FROM model
             WHERE brand = 'BMW'
                 AND model_name = 'M4'
             LIMIT 1
@@ -187,6 +198,38 @@ VALUES (
                 AND model_name = 'RS6'
             LIMIT 1
         ), '1HGBH41JXMN109186', 2023, 'Gray', 12000000, 2
+    ),(
+        (
+            SELECT model_id
+            FROM model
+            WHERE brand = 'Skoda'
+                AND model_name = 'Rapid'
+            LIMIT 1
+        ), 'TRGLH34JZMU164106', 2017, 'White', 1050000, 4
+    ), (
+        (
+            SELECT model_id
+            FROM model
+            WHERE brand = 'Volkswagen'
+                AND model_name = 'Golf'
+            LIMIT 1
+        ), '3YGMH65JZOPU64146', 2018, 'Gray', 1800000, 1
+    ), (
+        (
+            SELECT model_id
+            FROM model
+            WHERE brand = 'Volkswagen'
+                AND model_name = 'Touareg'
+            LIMIT 1
+        ), 'RUDGL55JFOOH54421', 2019, 'Black', 3950000, 1
+    ), (
+        (
+            SELECT model_id
+            FROM model
+            WHERE brand = 'Volkswagen'
+                AND model_name = 'Touareg'
+            LIMIT 1
+        ), 'UEGGH45JDOFU39046', 2020, 'Gray', 4900000, 1
     ) ON CONFLICT DO NOTHING;
 
 -- ===================================
@@ -231,6 +274,19 @@ VALUES (
         (
             SELECT car_id
             FROM car
+            WHERE vin = 'HP3RFRGEV0W004022'
+        ),
+        9900,
+        'Perfect',
+        'Perfect',
+        'Perfect',
+        '2025-08-22',
+        NULL
+    ),
+    (
+        (
+            SELECT car_id
+            FROM car
             WHERE vin = 'WBA8E1C50GK000003'
         ),
         32000,
@@ -239,6 +295,58 @@ VALUES (
         'Good',
         '2025-09-20',
         'Engine needs check'
+    ),
+    (
+        (
+            SELECT car_id
+            FROM car
+            WHERE vin = 'TRGLH34JZMU164106'
+        ),
+        119000,
+        'Need technical service',
+        'Good',
+        'Need detailing',
+        '2025-10-23',
+        NULL
+    ),
+    (
+        (
+            SELECT car_id
+            FROM car
+            WHERE vin = '3YGMH65JZOPU64146'
+        ),
+        85000,
+        'Normal',
+        'Good',
+        'Need detailing',
+        '2025-09-02',
+        NULL
+    ),
+    (
+        (
+            SELECT car_id
+            FROM car
+            WHERE vin = 'RUDGL55JFOOH54421'
+        ),
+        198000,
+        'Good',
+        'Good',
+        'Good',
+        '2025-08-29',
+        NULL
+    ),
+    (
+        (
+            SELECT car_id
+            FROM car
+            WHERE vin = 'UEGGH45JDOFU39046'
+        ),
+        84000,
+        'Good',
+        'Good',
+        'Not ideal',
+        '2025-07-12',
+        NULL
     ) ON CONFLICT DO NOTHING;
 
 -- ===================================
@@ -303,25 +411,38 @@ VALUES (
             WHERE last_name = 'Kovalev'
             LIMIT 1
         ), 2700000
+    ), (
+        '2025-10-25',(
+            SELECT car_id
+            FROM Car
+            WHERE vin = 'RUDGL55JFOOH54421'
+        ),
+        (
+            SELECT client_id
+            FROM Client
+            WHERE company_name = 'TechSolutions LLC'
+            LIMIT 1
+        ),(
+            SELECT employee_id
+            FROM Employee
+            WHERE last_name = 'Petrov'
+            LIMIT 1
+        ), 3900000
+    ), (
+        '2025-11-01',(
+            SELECT car_id
+            FROM Car
+            WHERE vin = 'TRGLH34JZMU164106'
+        ),
+        (
+            SELECT client_id
+            FROM Client
+            WHERE company_name = 'TechSolutions LLC'
+            LIMIT 1
+        ),(
+            SELECT employee_id
+            FROM Employee
+            WHERE last_name = 'Ivanov'
+            LIMIT 1
+        ), 950000
     ) ON CONFLICT DO NOTHING;
-
--- ===================================
--- Rebuild EmployeeStatistic from current sales
--- ===================================
--- INSERT INTO EmployeeStatistic (
---         employee_id,
---         total_sales_count,
---         total_sales_amount,
---         last_sale_date
---     )
--- SELECT empl.employee_id,
---     COUNT(Sale.sale_id) AS cnt,
---     COALESCE(SUM(Sale.sale_price), 0) AS amt,
---     MAX(Sale.sale_date)
--- FROM Employee empl
---     LEFT JOIN Sale ON Sale.employee_id = empl.employee_id
--- GROUP BY empl.employee_id ON CONFLICT (employee_id) DO
--- UPDATE
--- SET total_sales_count = EXCLUDED.total_sales_count,
---     total_sales_amount = EXCLUDED.total_sales_amount,
---     last_sale_date = EXCLUDED.last_sale_date;
