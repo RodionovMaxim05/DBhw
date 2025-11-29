@@ -1,7 +1,7 @@
 -- ===================================
 -- 1) Car reservation
 -- ===================================
-CREATE OR REPLACE PROCEDURE ReserveCar(
+CREATE OR REPLACE PROCEDURE reserve_car(
         car_id_param INT,
         client_id_param INT,
         employee_id_param INT
@@ -33,12 +33,12 @@ END;
 
 $$;
 
--- CALL ReserveCar(3, 1, 1);
+-- CALL reserve_car(3, 1, 1);
 -- 
 -- ===================================
 -- 2) Return/cancellation of the most recent sale for a car
 -- ===================================
-CREATE OR REPLACE PROCEDURE RefundSale(
+CREATE OR REPLACE PROCEDURE refund_sale(
         IN p_car_id INT,
         OUT refunded_sale_id INT,
         OUT refunded_amount INT,
@@ -83,4 +83,4 @@ END;
 
 $$;
 
--- CALL RefundSale(1, NULL, NULL, NULL);
+-- CALL refund_sale(1, NULL, NULL, NULL);

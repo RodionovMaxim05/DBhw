@@ -52,7 +52,7 @@ SELECT EXTRACT(
     TO_CHAR(sale_date, 'Month') AS month_name,
     COUNT(*) AS sales_count,
     SUM(sale_amount) AS total_revenue
-FROM SalesReport
+FROM v_sales_report
 WHERE sale_date >= CURRENT_DATE - INTERVAL '1 year'
 GROUP BY year,
     MONTH,
@@ -94,7 +94,7 @@ SELECT car_id,
     mileage,
     color,
     price
-FROM AvailableCars
+FROM v_available_cars
 WHERE mileage > 50000
 ORDER BY mileage DESC;
 
@@ -104,7 +104,7 @@ ORDER BY mileage DESC;
 SELECT SPLIT_PART(automobile, ' ', 1) AS brand,
     COUNT(*) AS sales_count,
     SUM(sale_amount) AS total_revenue
-FROM SalesReport
+FROM v_sales_report
 WHERE sale_date >= CURRENT_DATE - INTERVAL '3 months'
 GROUP BY SPLIT_PART(automobile, ' ', 1)
 HAVING COUNT(*) >= 1
@@ -199,7 +199,7 @@ SELECT ac.car_id,
                 WHERE name = 'Available'
             )
     ) AS avg_brand_price
-FROM AvailableCars ac
+FROM v_available_cars ac
 WHERE ac.price > (
         SELECT AVG(c2.price)
         FROM Car c2

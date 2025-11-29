@@ -1,7 +1,7 @@
 -- ===================================
 -- 1) Available cars with model details
 -- ===================================
-CREATE OR REPLACE VIEW AvailableCars AS
+CREATE OR REPLACE VIEW v_available_cars AS
 SELECT Car.car_id,
     Model.brand,
     Model.model_name,
@@ -20,12 +20,12 @@ FROM Car
 WHERE StatusType.name = 'Available';
 
 SELECT *
-FROM AvailableCars;
+FROM v_available_cars;
 
 -- ===================================
 -- 2) Full sales history with names
 -- ===================================
-CREATE OR REPLACE VIEW SalesReport AS
+CREATE OR REPLACE VIEW v_sales_report AS
 SELECT Sale.sale_id AS sale_id,
     Sale.sale_date AS sale_date,
     Sale.sale_price AS sale_amount,
@@ -42,12 +42,12 @@ FROM Sale
     JOIN Model ON Car.model_id = Model.model_id;
 
 SELECT *
-FROM SalesReport;
+FROM v_sales_report;
 
 -- ===================================
 -- 3) Employee statistics with name
 -- ===================================
-CREATE OR REPLACE VIEW EmployeePerformance AS
+CREATE OR REPLACE VIEW v_employee_performance AS
 SELECT Employee.employee_id,
     Employee.first_name,
     Employee.last_name,
@@ -60,4 +60,4 @@ FROM Employee
     JOIN EmployeeStatistic emp_stat ON Employee.employee_id = emp_stat.employee_id;
 
 SELECT *
-FROM EmployeePerformance;
+FROM v_employee_performance;

@@ -1,9 +1,9 @@
 -- ===================================
 -- Delete Procedures
 -- ===================================
-DROP PROCEDURE IF EXISTS ReserveCar(INT, INT, INT);
+DROP PROCEDURE IF EXISTS reserve_car(INT, INT, INT);
 
-DROP PROCEDURE IF EXISTS RefundSale(INT, OUT INT, OUT INT, OUT INT);
+DROP PROCEDURE IF EXISTS refund_sale(INT, OUT INT, OUT INT, OUT INT);
 
 -- ===================================
 -- Delete Triggers
@@ -32,11 +32,11 @@ DROP FUNCTION IF EXISTS prevent_sale_of_sold_car();
 -- ===================================
 -- Delete Views
 -- ===================================
-DROP VIEW IF EXISTS AvailableCars;
+DROP VIEW IF EXISTS v_available_cars;
 
-DROP VIEW IF EXISTS SalesReport;
+DROP VIEW IF EXISTS v_sales_report;
 
-DROP VIEW IF EXISTS EmployeePerformance;
+DROP VIEW IF EXISTS v_employee_performance;
 
 -- ===================================
 -- Delete Tables
