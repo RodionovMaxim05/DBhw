@@ -74,15 +74,8 @@ SELECT Client.client_id,
 FROM Client
     JOIN Sale ON Client.client_id = Sale.client_id
     JOIN Car ON Sale.car_id = Car.car_id
-    JOIN Model ON Model.model_id = Sale.car_id
-WHERE EXISTS (
-        SELECT *
-        FROM Sale
-            JOIN Car ON Sale.car_id = Car.car_id
-            JOIN Model ON Car.model_id = Model.model_id
-        WHERE Sale.client_id = Client.client_id
-            AND Model.brand = 'Volkswagen'
-    );
+    JOIN Model ON Car.model_id = Model.model_id
+WHERE Model.brand = 'Volkswagen';
 
 -- ===================================
 -- 6) Available cars with mileage over 50,000 km

@@ -1,11 +1,7 @@
 -- ===================================
 -- 1) Car reservation
 -- ===================================
-CREATE OR REPLACE PROCEDURE reserve_car(
-        car_id_param INT,
-        client_id_param INT,
-        employee_id_param INT
-    ) LANGUAGE plpgsql AS $$
+CREATE OR REPLACE PROCEDURE reserve_car(car_id_param INT) LANGUAGE plpgsql AS $$
 DECLARE reserved_status_id INT;
 
 current_status TEXT;
@@ -33,7 +29,7 @@ END;
 
 $$;
 
--- CALL reserve_car(3, 1, 1);
+-- CALL reserve_car(3);
 -- 
 -- ===================================
 -- 2) Return/cancellation of the most recent sale for a car
