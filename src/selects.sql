@@ -29,7 +29,7 @@ ORDER BY average_price DESC;
 SELECT bt.name AS body_type,
     COUNT(*) AS cars_count,
     ROUND(AVG(cc.mileage), 0) AS avg_mileage
-FROM Car Car
+FROM Car
     JOIN Model ON Car.model_id = Model.model_id
     JOIN BodyType bt ON Model.body_type_id = bt.body_type_id
     JOIN CarCondition cc ON Car.car_id = cc.car_id
